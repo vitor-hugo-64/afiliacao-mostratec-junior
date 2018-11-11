@@ -42,7 +42,7 @@
             <br>
             <div class="text-left">
               <div class="form-group">
-                <label for="nomeInstituicao"><strong>1.</strong> Informe o nome da sua feira. Caso o nome não se encontre no campo abaixo entrar em contato pelo email <b>mostratec.junior@liberato.com.br</b>: </label>
+                <label for="nomeInstituicao"><strong>1.</strong> Nome da instituição: </label>
                 <input data-js="input" type="text" name="nomeInstituicao" class="form-control" id="Nome da Instituicao">
               </div>
               <div class="form-group">
@@ -61,8 +61,29 @@
               </div>
               <br>
               <div class="form-group">
-                <label for="nomeFeira"><strong>2.</strong> Nome da feira de ci&ecirc;ncias: </label>
-                <input data-js="input" class="form-control" type="text" name="nomeFeira" id="Nome da Feira">
+                <label for="nomeFeira"><strong>2.</strong>  Informe o nome da sua feira. Caso o nome não se encontre no campo abaixo entrar em contato pelo email <b>mostratec.junior@liberato.com.br</b>:  </label>
+                <select class="form-control" name="nomeFeira" data-js="input">
+                  <?php
+                    require 'vendor/autoload.php';
+
+                    use Medoo\Medoo;
+
+                    $database = new Medoo([
+                    	'database_type' => 'mysql',
+                    	'database_name' => 'mostratec_junior_afiliacao',
+                    	'server' => '127.0.0.1',
+                    	'username' => 'root',
+                    	'password' => '',
+                    	'charset' => 'utf8'
+                    ]);
+
+                    $results = $database->select( 'feiras', array( 'cod_feiras', 'nome'));
+
+                    foreach ( $results as $key => $value) {
+                      echo "<option value='" . $value['nome'] . "'>" . $value['nome'] . "</option>";
+                    }
+                  ?>
+                </select>
               </div>
               <div class="form-row">
                 <div class="col">

@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 
 use Medoo\Medoo;
 
-echo json_encode( $_POST);
+// echo json_encode( $_POST);
 
 $tipoFeira = ( $_POST['tipoFeira'] != 'outro') ? $_POST['tipoFeira'] : $_POST['outroTipo'];
 
@@ -24,12 +24,30 @@ $nivelEnsinoAlunosEducacaoSuperior = isset( $_POST['nivelEnsinoAlunosEducacaoSup
 $numeroProjetosSuperior = isset( $_POST['nivelEnsinoAlunosEducacaoSuperior']) ? $_POST['numeroProjetosSuperior'] : 0;
 $numeroEscolasSuperior = isset( $_POST['nivelEnsinoAlunosEducacaoSuperior']) ? $_POST['numeroEscolasSuperior'] : 0;
 
+$opcao1 = isset( $_POST['opcao1']) ? $_POST['opcao1'] : 'n';
+$opcao2 = isset( $_POST['opcao2']) ? $_POST['opcao2'] : 'n';
+$opcao3 = isset( $_POST['opcao3']) ? $_POST['opcao3'] : 'n';
+$opcao4 = isset( $_POST['opcao4']) ? $_POST['opcao4'] : 'n';
+$opcao5 = isset( $_POST['opcao5']) ? $_POST['opcao5'] : 'n';
+$opcao6 = isset( $_POST['opcao6']) ? $_POST['opcao6'] : 'n';
+$opcao7 = isset( $_POST['opcao7']) ? $_POST['opcao7'] : 'n';
+$opcao8 = isset( $_POST['opcao8']) ? $_POST['opcao8'] : 'n';
+$opcao9 = isset( $_POST['opcao9']) ? $_POST['opcao9'] : 'n';
+$opcao10 = isset( $_POST['opcao10']) ? $_POST['opcao10'] : 'n';
+$opcao11 = isset( $_POST['opcao11']) ? $_POST['opcao11'] : 'n';
+$opcao12 = isset( $_POST['opcao12']) ? $_POST['opcao12'] : 'n';
+$opcao13 = isset( $_POST['opcao13']) ? $_POST['opcao13'] : 'n';
+$opcao14 = isset( $_POST['opcao14']) ? $_POST['opcao14'] : 'n';
+$opcao15 = isset( $_POST['opcao15']) ? $_POST['opcao15'] : 'n';
+$opcao16 = isset( $_POST['opcao16']) ? $_POST['opcao16'] : 'n';
+$opcao17 = isset( $_POST['opcao17']) ? $_POST['opcao17'] : 'n';
+
 $database = new Medoo([
 	'database_type' => 'mysql',
 	'database_name' => 'mostratec_junior_afiliacao',
-	'server' => '172.16.0.5',
-	'username' => 'site',
-	'password' => 'ChWoaTBxTZEzVSHX',
+	'server' => '127.0.0.1',
+	'username' => 'root',
+	'password' => '',
 	'charset' => 'utf8'
 ]);
 
@@ -82,7 +100,29 @@ $parameters = array(
   ':todos_projetos_tres_estudantes_in' => $_POST['numeroProjetosEstudante3'],
   ':todos_projetos_quatro_estudantes_in' => $_POST['numeroProjetosEstudante4'],
   ':todos_projetos_cinco_ou_mais_estudantes_in' => $_POST['numeroProjetosEstudante5'],
-
+  ':numero_total_estudantes_in' => $_POST['numeroAlunosRelacaoItem175'],
+  ':numero_total_de_orientadores_in' => $_POST['totalOrientadoresItem17'],
+  ':numero_total_escolas_publicas_in' => $_POST['numeroEscolasPublicasTotal'],
+  ':numero_total_escolas_privadas_in' => $_POST['numeroEscolasPrivadasTotal'],
+  ':numero_total_projetos_credenciamento_in' => $_POST['numeroProjetosCredenciamento'],
+  ':numero_projetos_desejado_credenciamento_in' => $_POST['numeroProjetosCredenciamentoDesejado'],
+  ':opcao1' => $opcao1,
+  ':opcao2' => $opcao2,
+  ':opcao3' => $opcao3,
+  ':opcao4' => $opcao4,
+  ':opcao5' => $opcao5,
+  ':opcao6' => $opcao6,
+  ':opcao7' => $opcao7,
+  ':opcao8' => $opcao8,
+  ':opcao9' => $opcao9,
+  ':opcao10' => $opcao10,
+  ':opcao11' => $opcao11,
+  ':opcao12' => $opcao12,
+  ':opcao13' => $opcao13,
+  ':opcao14' => $opcao14,
+  ':opcao15' => $opcao15,
+  ':opcao16' => $opcao16,
+  ':opcao17' => $opcao17,
   ':nivel_escolas_ensino_infantil_in' => $nivelEnsinoAlunosEducacaoInfantil,
   ':numero_escolas_ensino_infantil_in' => $numeroProjetosInfantil,
   ':numero_projetos_ensino_infantil_in' => $numeroEscolasInfantil,
@@ -97,71 +137,90 @@ $parameters = array(
   ':numero_projetos_ensino_superior_tecnico_in' => $numeroEscolasSuperior
 );
 
-try {
 
-  $database->query('Call sp_cadastrar(
-    :nome_responsavel_preenchimento_cadastro_in,
-    :cargo_responsavel_preenchimento_cargo_in,
-    :data_cadastro_in,
-    :nome_pessoa_pra_contato_in,
-    :telefone_pessoa_pra_contato_in,
-    :email_pessoa_pra_contato_in,
-    :nome_instituicao_in,
-    :nome_responsavel_in,
-    :telefone_responsavel_in,
-    :email_responsavel_in,
-    :rua_in,
-    :numero_in,
-    :cep_in,
-    :cidade_in,
-    :estado_in,
-    :pais_in,
-    :nome_in,
-    :telefone_in,
-    :email_in,
-    :nome_feira_in,
-    :site_in,
-    :peridiocidade_in,
-    :data_realizacao_mais_recente_in,
-    :data_realizacao_proxima_in,
-    :data_confirmada_in,
-    :numero_edicao_in,
-    :tipo_de_feira_in,
-    :descricao_abrangencia_in,
-    :existe_comite_revisao_cientifica_in,
-    :descricao_processo_selecao_in,
-    :descricao_processo_avaliacao_feira_in,
-    :data_ultima_feira_realizada_in,
-    :numero_projetos_proxima_edicao_in,
-    :numero_escolas_proxima_edicao_in,
-    :ultima_feira_numero_projetos_um_estudante_in,
-    :ultima_feira_numero_projetos_dois_estudantes_in,
-    :ultima_feira_numero_projetos_tres_estudantes_in,
-    :ultima_feira_numero_projetos_quatro_estudantes_in,
-    :ultima_feira_numero_projetos_cinco_ou_mais_estudantes_in,
-    :ultima_feira_numero_total_professores_in,
-    :ultima_feira_numero_escolas_publicas,
-    :ultima_feira_numero_escolas_privadas_in,
-    :todos_projetos_um_estudante_in,
-    :todos_projetos_dois_estudantes_in,
-    :todos_projetos_tres_estudantes_in,
-    :todos_projetos_quatro_estudantes_in,
-    :todos_projetos_cinco_ou_mais_estudantes_in,
+$result = $database->query('Call sp_cadastrar(
+  :nome_responsavel_preenchimento_cadastro_in,
+  :cargo_responsavel_preenchimento_cargo_in,
+  :data_cadastro_in,
+  :nome_pessoa_pra_contato_in,
+  :telefone_pessoa_pra_contato_in,
+  :email_pessoa_pra_contato_in,
+  :nome_instituicao_in,
+  :nome_responsavel_in,
+  :telefone_responsavel_in,
+  :email_responsavel_in,
+  :rua_in,
+  :numero_in,
+  :cep_in,
+  :cidade_in,
+  :estado_in,
+  :pais_in,
+  :nome_in,
+  :telefone_in,
+  :email_in,
+  :nome_feira_in,
+  :site_in,
+  :peridiocidade_in,
+  :data_realizacao_mais_recente_in,
+  :data_realizacao_proxima_in,
+  :data_confirmada_in,
+  :numero_edicao_in,
+  :tipo_de_feira_in,
+  :descricao_abrangencia_in,
+  :existe_comite_revisao_cientifica_in,
+  :descricao_processo_selecao_in,
+  :descricao_processo_avaliacao_feira_in,
+  :data_ultima_feira_realizada_in,
+  :numero_projetos_proxima_edicao_in,
+  :numero_escolas_proxima_edicao_in,
+  :ultima_feira_numero_projetos_um_estudante_in,
+  :ultima_feira_numero_projetos_dois_estudantes_in,
+  :ultima_feira_numero_projetos_tres_estudantes_in,
+  :ultima_feira_numero_projetos_quatro_estudantes_in,
+  :ultima_feira_numero_projetos_cinco_ou_mais_estudantes_in,
+  :ultima_feira_numero_total_professores_in,
+  :ultima_feira_numero_escolas_publicas,
+  :ultima_feira_numero_escolas_privadas_in,
+  :todos_projetos_um_estudante_in,
+  :todos_projetos_dois_estudantes_in,
+  :todos_projetos_tres_estudantes_in,
+  :todos_projetos_quatro_estudantes_in,
+  :todos_projetos_cinco_ou_mais_estudantes_in,
+  :numero_total_estudantes_in,
+  :numero_total_de_orientadores_in,
+  :numero_total_escolas_publicas_in,
+  :numero_total_escolas_privadas_in,
+  :numero_total_projetos_credenciamento_in,
+  :numero_projetos_desejado_credenciamento_in,
+  :opcao1,
+  :opcao2,
+  :opcao3,
+  :opcao4,
+  :opcao5,
+  :opcao6,
+  :opcao7,
+  :opcao8,
+  :opcao9,
+  :opcao10,
+  :opcao11,
+  :opcao12,
+  :opcao13,
+  :opcao14,
+  :opcao15,
+  :opcao16,
+  :opcao17,
+  :nivel_escolas_ensino_infantil_in,
+  :numero_escolas_ensino_infantil_in,
+  :numero_projetos_ensino_infantil_in,
+  :nivel_escolas_ensino_fundamental_in,
+  :numero_escolas_ensino_fundamental_in,
+  :numero_projetos_ensino_fundamental_in,
+  :nivel_escolas_ensino_medio_in,
+  :numero_escolas_ensino_medio_in,
+  :numero_projetos_ensino_medio_in,
+  :nivel_escolas_ensino_superior_tecnico_in,
+  :numero_escolas_ensino_superior_tecnico_in,
+  :numero_projetos_ensino_superior_tecnico_in
+)', $parameters)->fetchAll();
 
-    :nivel_escolas_ensino_infantil_in,
-    :numero_escolas_ensino_infantil_in,
-    :numero_projetos_ensino_infantil_in,
-    :nivel_escolas_ensino_fundamental_in,
-    :numero_escolas_ensino_fundamental_in,
-    :numero_projetos_ensino_fundamental_in,
-    :nivel_escolas_ensino_medio_in,
-    :numero_escolas_ensino_medio_in,
-    :numero_projetos_ensino_medio_in,
-    :nivel_escolas_ensino_superior_tecnico_in,
-    :numero_escolas_ensino_superior_tecnico_in,
-    :numero_projetos_ensino_superior_tecnico_in
-  )', $parameters);
-
-} catch (\Exception $e) {
-  echo $e->getMessage();
-}
+// echo json_encode( $result);
